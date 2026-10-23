@@ -1,60 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Safari Trails Kenya</title>
+<title>Safari Trails Kenya - Explore Kenya's Wild Beauty</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{background:#f5f5f5}
 .hero{background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg');background-size:cover;background-position:center;color:white;text-align:center;padding:80px 20px}
-.hero h1{font-size:32px;margin-bottom:10px}
+.hero h2{font-size:32px;margin-bottom:10px}
 .hero p{font-size:18px;margin-bottom:20px}
-.btn{background:#ff9800;color:white;padding:12px 24px;text-decoration:none;border-radius:5px;display:inline-block;font-weight:bold}
-.container{padding:20px;max-width:1000px;margin:auto}
-.card{background:white;border-radius:8px;overflow:hidden;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-.card img{width:100%;height:200px;object-fit:cover}
+.btn{background:#ff9800;color:white;padding:12px 24px;border:none;border-radius:6px;cursor:pointer;font-size:16px;text-decoration:none;display:inline-block}
+.btn-green{background:#2e7d32}
+.container{max-width:1100px;margin:auto;padding:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.card{background:white;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.card img{width:100%;height:200px;object-fit:cover;display:block}
 .card-body{padding:15px}
 .card-body h3{margin-bottom:8px}
-.price{color:#ff9800;font-weight:bold;margin:10px 0}
+.price{color:#2e7d32;font-weight:bold;margin:10px 0;font-size:18px}
+#book{background:white;margin:30px auto;max-width:600px;padding:25px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+#book input,#book select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:6px}
 </style>
 </head>
 <body>
+
 <div class="hero">
-<h1>Safari Trails Kenya</h1>
-<p>Explore Kenya's Wild Beauty</p>
-<a href="#tours" class="btn">View Safaris</a>
+<h2>Explore Kenya's Wild Beauty</h2>
+<p>Maasai Mara • Amboseli • Diani • Tsavo • Nairobi</p>
+<a href="#book"><button class="btn">Book Now with M-Pesa</button></a>
 </div>
 
-<div class="container" id="tours">
-<div class="card">
-<img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Lion_waiting_in_Namibia.jpg">
-<div class="card-body">
-<h3>Maasai Mara Adventure</h3>
-<p>3 Days - See lions, elephants and wildebeest migration.</p>
-<div class="price">KSh 45,000</div>
-<a href="#" class="btn">Book Now</a>
+<div class="container">
+<h2 id="tours" style="margin:10px 0">Popular Safaris</h2>
+<div class="grid">
+<div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/0/0e/Masai_Mara_Landscape.jpg"><div class="card-body"><h3>Maasai Mara 3 Days</h3><p>Wildebeest migration, Big 5, Luxury camps</p><div class="price">Ksh 25,000 per person</div><button class="btn btn-green" onclick="selectTour('Maasai Mara 3 Days',25000)">Book This</button></div></div>
 </div>
 </div>
 
-<div class="card">
-<img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Giraffe_Masai_Mara.jpg">
-<div class="card-body">
-<h3>Amboseli & Giraffes</h3>
-<p>2 Days - Giraffes with Kilimanjaro view.</p>
-<div class="price">KSh 32,000</div>
-<a href="#" class="btn">Book Now</a>
-</div>
+<div id="book">
+<h2>Book Your Safari - M-Pesa Payment</h2>
+<input type="text" id="tourName" placeholder="Selected Tour" readonly>
+<input type="text" id="tourPrice" placeholder="Price" readonly>
+<input type="text" id="customerName" placeholder="Your Full Name">
+<input type="tel" id="mpesaNumber" placeholder="M-Pesa Number (e.g. 0712345678)">
+<input type="number" id="people" placeholder="Number of People" value="1" min="1" onchange="updateTotal()">
+<div id="totalDisplay" style="font-weight:bold;margin:10px 0;color:#2e7d32">Total: Ksh 25,000</div>
+<button class="btn btn-green" style="width:100%" onclick="bookViaMpesa()">Pay with M-Pesa</button>
+<p id="msg" style="margin-top:15px;text-align:center"></p>
 </div>
 
-<div class="card">
-<img src="https://upload.wikimedia.org/wikipedia/commons/4/4d/Maasai_Woman.jpg">
-<div class="card-body">
-<h3>Cultural Safari</h3>
-<p>1 Day - Visit Maasai village and learn culture.</p>
-<div class="price">KSh 8,500</div>
-<a href="#" class="btn">Book Now</a>
-</div>
-</div>
-</div>
+<script>
+let currentPrice = 25000;
+let currentTour = 'Maasai Mara 3 Days';
+function selectTour(name,price){
+ currentTour=name;
+ currentPrice=price;
+ document.getElementById('tourName').value=name;
+ document.getElementById('tourPrice').value='Ksh '+price.toLocaleString();
+ document.getElementById('book').scrollIntoView({behavior:'smooth'});
+ updateTotal();
+}
+function updateTotal(){
+ let p=document.getElementById('people').value||1;
+ document.getElementById('totalDisplay').innerText='Total: Ksh '+(currentPrice*p).toLocaleString();
+}
+function bookViaMpesa(){
+ let name=document.getElementById('customerName').value;
+ let phone=document.getElementById('mpesaNumber').value;
+ let people=document.getElementById('people').value;
+ if(!name||!phone){document.getElementById('msg').innerText='Please fill name and M-Pesa number';return;}
+ let total=currentPrice*people;
+ document.getElementById('msg').innerHTML='✅ Booking request for <b>'+currentTour+'</b> - Ksh '+total.toLocaleString()+'<br>Send to M-Pesa Till: 123456<br>We will confirm on '+phone;
+}
+window.onload=function(){selectTour('Maasai Mara 3 Days',25000)}
+</script>
+
 </body>
 </html>
