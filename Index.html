@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safari Trails Kenya | Book & Pay with M-Pesa</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f8f9f5;color:#222}
+header{background:#0a3d24;color:#fff;padding:18px 20px;position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:20px}
+nav a{color:#fff;text-decoration:none;margin-left:12px;font-size:14px}
+.hero{background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url('https://images.unsplash.com/photo-1547471080-7cc2caa01a7e');background-size:cover;background-position:center;color:#fff;padding:70px 20px;text-align:center}
+.hero h2{font-size:32px;margin-bottom:10px}
+.hero p{font-size:18px;margin-bottom:20px}
+.btn{background:#ff9800;color:#fff;padding:14px 28px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px}
+.btn-green{background:#0a5c36}
+.container{max-width:1000px;margin:auto;padding:20px}
+.grid{display:grid;grid-template-columns:1fr;gap:15px}
+@media(min-width:700px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.card img{width:100%;height:180px;object-fit:cover}
+.card-body{padding:15px}
+.card-body h3{margin-bottom:5px;color:#0a3d24}
+.price{color:#ff9800;font-weight:bold;margin:8px 0}
+.booking{background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1);margin-top:25px}
+.booking h2{color:#0a3d24;margin-bottom:15px;text-align:center}
+input,select{width:100%;padding:12px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:15px}
+.row{display:flex;gap:10px}
+.row>div{flex:1}
+.success{background:#e8f5e9;border:1px solid #4caf50;padding:12px;border-radius:8px;margin-top:10px;display:none}
+.how{background:#fffbe6;padding:20px;border-radius:12px;margin-top:20px}
+footer{background:#0a3d24;color:#fff;text-align:center;padding:20px;margin-top:30px}
+</style>
+</head>
+<body>
+<header>
+<h1>🦁 Safari Trails Kenya</h1>
+<nav><a href="#tours">Tours</a><a href="#book">Book</a></nav>
+</header>
+
+<div class="hero">
+<h2>Explore Kenya's Wild Beauty</h2>
+<p>Maasai Mara • Amboseli • Diani • Tsavo • Nairobi</p>
+<a href="#book"><button class="btn">Book Now with M-Pesa</button></a>
+</div>
+
+<div class="container">
+<h2 id="tours" style="margin:15px 0">Popular Safaris</h2>
+<div class="grid">
+<div class="card"><img src="https://images.unsplash.com/photo-1516426122078-c4fe506ab1f0"><div class="card-body"><h3>Maasai Mara 3 Days</h3><p>Wildebeest migration, Big 5, Luxury camps</p><div class="price">Ksh 25,000 per person</div><button class="btn btn-green" onclick="selectTour('Maasai Mara 3 Days',25000)">Book This</button></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e"><div class="card-body"><h3>Amboseli 2 Days</h3><p>View Kilimanjaro & Elephants</p><div class="price">Ksh 18,000 per person</div><button class="btn btn-green" onclick="selectTour('Amboseli 2 Days',18000)">Book This</button></div></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53"><div class="card-body"><h3>Diani Beach 3 Days</h3><p>White sands, Dhow cruise, Wasini</p><div class="price">Ksh 15,000 per person</div><button class="btn btn-green" onclick="selectTour('Diani Beach 3 Days',15000)">Book This</button></div></div>
+</div>
+
+<div class="booking" id="book">
+<h2>Book & Pay with M-Pesa STK Push</h2>
+<div class="row"><div><label>Full Name</label><input id="name" placeholder="John Kamau"></div><div><label>Phone Number</label><input id="phone" placeholder="2547XXXXXXXX"></div></div>
+<label>Selected Tour</label><input id="tourName" value="Maasai Mara 3 Days - Ksh 25000">
+<label>Number of People</label><select id="people" onchange="updateTotal()"><option value="1">1 Person</option><option value="2">2 People</option><option value="3">3 People</option><option value="4">4 People</option></select>
+<label>Total Amount (Ksh)</label><input id="amount" value="25000" readonly>
+<label>Travel Date</label><input type="date" id="date">
+<button class="btn" style="width:100%;margin-top:15px" onclick="payNow()">🔒 Pay with M-Pesa STK Push</button>
+<div id="msg" class="success"></div>
+<div class="how" style="margin-top:15px">
+<h3>How STK Push Works:</h3>
+<p>1. Enter your Safaricom M-Pesa number (2547...)</p>
+<p>2. Click Pay - You will receive a prompt on your phone</p>
+<p>3. Enter your M-Pesa PIN to complete</p>
+<p>4. Get instant confirmation + e-ticket</p>
+<p style="margin-top:8px;color:#666;font-size:13px">Note: To make real payments, connect this to Safaricom Daraja API. For now it's demo mode.</p>
+</div>
+</div>
+</div>
+
+<footer><p>&copy; 2025 Safari Trails Kenya | Call: 0712 345 678 | Email: info@safaritrails.co.ke</p><p>Pay via M-Pesa Till: 123456 | Lipa Na M-Pesa</p></footer>
+
+<script>
+function selectTour(name,price){document.getElementById('tourName').value=name+' - Ksh '+price;document.getElementById('amount').value=price;document.getElementById('book').scrollIntoView({behavior:'smooth'});updateTotal();}
+function updateTotal(){let base=parseInt(document.getElementById('tourName').value.match(/\d+/)?.[0]||25000);let people=document.getElementById('people').value;let total=base*people;document.getElementById('amount').value=total;}
+function payNow(){
+let name=document.getElementById('name').value;
+let phone=document.getElementById('phone').value;
+let amount=document.getElementById('amount').value;
+let tour=document.getElementById('tourName').value;
+if(!name||!phone){alert('Please fill Name and M-Pesa Phone');return;}
+if(!phone.startsWith('254')){alert('Use format 2547XXXXXXXX');return;}
+let msg=document.getElementById('msg');
+msg.style.display='block';
+msg.innerHTML='⏳ Sending STK Push to '+phone+' for Ksh '+amount+'...<br><br>✅ STK Push Sent! Check your phone, enter M-Pesa PIN.<br><br>Booking for: <b>'+tour+'</b><br>Name: '+name+'<br><br>We will send ticket via SMS. Asante sana!';
+// Here you will integrate real Daraja API:
+// fetch('https://your-backend.com/api/stkpush', {method:'POST', body:JSON.stringify({phone,amount})})
+}
+</script>
+</body>
+</html>
